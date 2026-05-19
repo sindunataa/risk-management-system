@@ -1,0 +1,29 @@
+<?php
+
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\RiskAssessmentController;
+use App\Http\Controllers\Api\RiskCategoryController;
+use App\Http\Controllers\Api\RiskController;
+use App\Http\Controllers\Api\RiskMitigationController;
+use Illuminate\Support\Facades\Route;
+
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login',    [AuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me',      [AuthController::class, 'me']);
+
+    Route::apiResource('risks', RiskController::class);
+
+    Route::prefix('risks/{risk}')->group(function () {
+        Route::apiResource('assessments', RiskAssessmentController::class)
+             ->only(['index', 'store', 'destroy']);
+        Route::apiResource('mitigations', RiskMitigationController::class)
+             ->only(['index', 'store', 'update', 'destroy']);
+    });
+
+    Route::apiResource('risk-categories', RiskCategoryController::class);
+});
