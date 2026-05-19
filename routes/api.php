@@ -26,4 +26,4 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::apiResource('risk-categories', RiskCategoryController::class);
-});
+}); 

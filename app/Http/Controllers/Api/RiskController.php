@@ -55,7 +55,7 @@ class RiskController extends Controller
     public function update(UpdateRiskRequest $request, Risk $risk)
     {
         $risk->update($request->validated());
-        // $risk->load(['category', 'owner']);
+        $risk->load(['category', 'owner']);
 
         return $this->successResponse(new RiskResource($risk), 'Risk updated');
     }
